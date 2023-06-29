@@ -1,0 +1,81 @@
+.App {
+  margin: auto;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  text-align: center;
+  justify-content: center;  
+  max-width: 70%;  
+}
+.App-header {
+  background-color: #030005;
+  border: 0px solid #000000;
+  border-radius: 7px 7px 0px 0px;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8em;
+  color: #FFFFFF;
+}
+
+.head-left, .head-right{  
+  padding: 12px;
+  margin-left: 20px;
+  margin-right: 40px;
+  border: 0px solid #000000;
+  display: flex;
+  align-items: center;  
+}
+.head-left{
+  display: flex;
+  text-align: left;
+}
+.head-right{
+  display: flex;
+  text-align: right;
+  justify-content: center;
+}
+
+.container{
+  background-color: #FEFDFF;
+  border: 0px solid #000000;
+  color: #000000;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+
+
+.App-footer{
+  background-color: #030005;
+  border: 0px solid #000000;
+  color: #FFFFFF;
+  min-height: 5vh;
+  margin: auto;
+  display: flex;
+  justify-content: flex-end;
+  border-radius: 0px 0px 7px 7px;
+}
+
+.footer-info{
+  display:flex;
+  align-items: flex-end;
+  padding: 10px;
+  font-size: 0.7em;
+}
+@media screen and (max-width: 600px){
+  .App-header {
+    display:flex;
+    flex-direction: column;
+  }
+  
+  .head-right{
+    text-align: center;
+  }
+  
+}
