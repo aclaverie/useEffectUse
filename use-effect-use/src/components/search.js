@@ -1,14 +1,76 @@
 import React from 'react';
-import { useState } from 'react';
-import { Autocomplete, TextField, CircularProgress } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import CircularProgress from '@mui/material/CircularProgress';
+import { useState, useEffect } from 'react';
 
-function Search(){
+function Search(props) {
   const [open, setOpen] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [tasksD, setTasksD] = useState([]);
+  const [count, setCount] = useState(1)
+  // This loading allows for the Search List to be reloaded any time open for updated listing
   const loading = open;
+  const { Searched } = props
+  const { Searcher } = props
+  
+  useEffect(() => {
+    //Set loading to be true from focus
+    let active = true;
+    //Check loading to get Tasks Listing else break out
+    //Do not get Tasks Listing
+    if (!loading) {
+      return undefined;
+    }
+    //Use of iFFY to automatically asynchornously fetch Tasks Data to extract Assignees (prop: who)
+    (async () => {
+      await fetch(`https://swapi.dev/api/people/`)
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          if (!data.error) {
+            const selOpt = [];
+            //A default option to show all records from dropdown
+            selOpt[0] = 'Full List';
+            if (data.length !== 1) {
+              //Extract the who for assignee to use in search drop list
+              data.map((d, key) => ( selOpt[key+1] = d.who ));
+              //create unique records simply remove dubplicates
+              const uniqueData = [...new Set(selOpt)];
+              //Set Search Dropdown with unique Assignee Listing
+              if (active) { setTasksD([...uniqueData]); }
+            } else {
+              data.map((d, key) => ( selOpt[key] = d.who ));
+              if (active) { setTasksD([...selOpt]); }
+            }
+          } else if (data.error === 'No records found.') {
+            setOpen(false);        
+          }
+        })
+    })();
+    //Set active action to false
+    return () => {
+      active = false;
+    };
+  }, [loading, Searched, inputValue]);
 
+  useEffect(() => {
+    (async () => {
+      const url = (inputValue === 'Full List') ? `https://swapi.dev/api/people/` : `https://swapi.dev/api/people/${count}/`;
+      await fetch(url)
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          if (!data.error) {
+            Searcher([...data]);
+          }
+        })
+    })();
+  }, [inputValue, Searched]);
 
-  return(
+  return (
     <div className='search'>
       <Autocomplete
         open={open}
@@ -22,13 +84,13 @@ function Search(){
         onClose={() => {
           setOpen(false);
         }}
-        // isOptionEqualToValue={(option, value) => option.id === value.id}
-        // options={tasksD.map((d) => (d))}
+        isOptionEqualToValue={(option, value) => option.id === value.id}
+        options={tasksD.map((d) => (d))}
         loading={loading}
         renderInput={(params) => (
           <TextField
             {...params}
-            label="Search by character"
+            label="Search Assignee"
             InputProps={{
               ...params.InputProps,
               endAdornment: (
@@ -42,7 +104,7 @@ function Search(){
         )}
       />
     </div>
-  )
+  );
 }
 
 export default Search;

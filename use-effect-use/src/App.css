@@ -25,7 +25,8 @@
   margin-right: 40px;
   border: 0px solid #000000;
   display: flex;
-  align-items: center;  
+  align-items: center; 
+
 }
 .head-left{
   display: flex;
@@ -33,23 +34,37 @@
 }
 .head-right{
   display: flex;
+  flex-direction: column;
   text-align: right;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .container{
   background-color: #FEFDFF;
-  border: 0px solid #000000;
+  border: 0px solid #FF0000;
   color: #000000;
   min-height: 70vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  
+  justify-content: flex-start;
+  width: 100%;
 }
 
+.star-container{
+  border: 1px solid #FF0000;
+  width: 98%;
+  margin: 12px;
+}
 
+.star-prev-next-btn{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.star-prev-next-btn button{
+  margin: 12px;
+}
 
 .App-footer{
   background-color: #030005;
@@ -74,8 +89,13 @@
     flex-direction: column;
   }
   
-  .head-right{
+  .head-right, .head-left{
     text-align: center;
+    margin-right: 20px;
+  }
+  .star-prev-next-btn{
+    padding: 12px;
+    flex-direction: column;
   }
   
 }
